@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Log;
 use App\Models\Meal;
-use App\Models\Count_meals;
 use App\Models\Market;
+use App\Models\Count_meals;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
 class MealController extends Controller
@@ -29,10 +30,9 @@ class MealController extends Controller
                 ->make(true);
         }
 
-        // $meals = Meal::where('id', auth()->id())->get();
         $all_names = Meal::all();
-        $meals = DB::table('meals')->where('id', 'name')->first();
-        return view('meal.index', compact('meals', 'all_names'));
+        // $meals = DB::table('meals')->where('id', 'name')->first();
+        return view('meal.index', compact('all_names'));
     }
     public function mealsDatatable(Request $request)
     {
@@ -50,6 +50,11 @@ class MealController extends Controller
                    return $row->breakfast + $row->lunch + $row->dinner;
 
                 })
+                ->setRowData([
+                    'total' => function ($row) {
+                        return 'row-' . $row->id;
+                    },
+                ])
                 ->editColumn('name', function($row){
                     // Log::info($row->relatioToMeal);
                     return $row->relatioToMeal->name ?? 'N/A';
@@ -90,7 +95,7 @@ class MealController extends Controller
         $meal->dinner = $request->dinner;
         $meal->date = $request->date;
         $meal->save();
-
+        session()->flash('success', 'created successfully');
         return back();
     }
     public function marketStore(Request $request)
@@ -127,7 +132,8 @@ class MealController extends Controller
             'email' => $request->email,
             'address' => $request->address
         ]);
-        return back();
+        // session()->flash('success', 'created successfully');
+        return response()->json(['success'=>'Added successfully!']);
     }
 
     public function show(Request $request, $id)
