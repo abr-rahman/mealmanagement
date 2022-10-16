@@ -8,6 +8,7 @@ use App\Models\Market;
 use App\Models\Count_meals;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -21,7 +22,8 @@ class MealController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<div class="dropdown table-dropdown" id="accordion">';
-                    $html .= '<a href=" ' . route('meal.edit', [$row->id]) . ' " id="edit"  data-toggle="modal" data-target="#editModalCenter" class="action-btn p-2" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>';
+                    // $html .= '<a href=" ' . route('meal.edit', [$row->id]) . ' " id="edit"  data-toggle="modal" data-target="#editModalCenter" class="action-btn p-2" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>';
+                    $html .= '<a href=" ' . route('meal.edit', [$row->id]) . ' " id="edit" class="action-btn p-2"><i class="fa-solid fa-pen-to-square"></i></a>';
                     $html .= '<a href=" ' . route('meal.destroy', [$row->id]) . ' " class="action-btn p-2" title="Delete"><i class="fa-solid fa-trash-can text-danger"></i></a>';
                     $html .= '</div>';
                     return $html;
@@ -31,7 +33,7 @@ class MealController extends Controller
         }
 
         $all_names = Meal::all();
-        // $meals = DB::table('meals')->where('id', 'name')->first();
+        // $all_names = DB::table('meals')->where('id', 'name')->first();
         return view('meal.index', compact('all_names'));
     }
     public function mealsDatatable(Request $request)
@@ -133,7 +135,9 @@ class MealController extends Controller
             'address' => $request->address
         ]);
         // session()->flash('success', 'created successfully');
-        return response()->json(['success'=>'Added successfully!']);
+        // return response()->json('success','Added successfully!');
+        // return ['success'=>true,'message'=>'data insert success'];
+        return back();
     }
 
     public function show(Request $request, $id)
@@ -143,9 +147,9 @@ class MealController extends Controller
 
     public function edit($id)
     {
-        $meal = Meal::find($id);
+        // $newmembers = Meal::find($id)->get();
 
-        return view('meal.edit', compact('meal'));
+        // return view('meal.ajax_view.edit', compact('newmembers'));
     }
 
     public function update(Request $request, $id)

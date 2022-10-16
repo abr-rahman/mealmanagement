@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ 'dashboard' }}/assets/css/leadmark.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="sweetalert2.min.css">
+    {{-- <link rel="stylesheet" href="sweetalert2.min.css"> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{{ 'dashboard' }}/assets/css/style.css">
 
@@ -62,11 +62,10 @@
     <script src="{{ 'dashboard' }}/assets/js/leadmark.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="sweetalert2.min.js"></script>
+    {{-- <script src="sweetalert2.min.js"></script> --}}
 
 
     <script>
-
         $(function() {
             var table = $('.meals_datatable').DataTable({
                 processing: true,

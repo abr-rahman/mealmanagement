@@ -24,9 +24,9 @@
 
         <div class="row my_style align-items-center new rounded">
             <div class="col-md-4 m-3">
-                {{-- <form id="newMemberForm" action="{{ route('meal.store') }}" method="post" enctype="multipart/form-data"> --}}
-                <form id="newMemberForm" name="newMemberForm" enctype="multipart/form-data">
-                    @csrf
+                {{-- <form action="{{ route('meal.store') }}" method="post" enctype="multipart/form-data"> --}}
+                <form id="new_member">
+
                     <h4 class="mb-4">Add New Member</h4>
                     <div class="form-row">
                         <div class="form-group col-sm-12">
@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-group col-12">
                             <textarea name="address" id="" cols="30" rows="1"
-                                class="form-control text-white mt-4 rounded-0 bg-transparent" placeholder="Address"></textarea>
+                                class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
                         </div>
                         <div class="form-group col-12 mb-0">
                             <button type="submit" class="btn  btn-primary rounded w-md mt-3" id="saveBtn">Save</button>
@@ -62,30 +62,32 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <div class="form-row">
-                                    <div class="form-group col-sm-6">
-                                        <input type="text" class="form-control text-white rounded-0 bg-transparent"
-                                            name="name" placeholder="Name" value="">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="email" class="form-control text-white rounded-0 bg-transparent"
-                                            name="email" placeholder="Email">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="phone" class="form-control text-white rounded-0 bg-transparent"
-                                            name="phone" placeholder="Phone">
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <textarea name="address" id="" cols="30" rows="1"
-                                            class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
+                            <form action="" method="post">
+                                <div class="modal-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-sm-6">
+                                            <input type="text" class="form-control text-white rounded-0 bg-transparent"
+                                                name="name" placeholder="Name" value="">
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <input type="email" class="form-control text-white rounded-0 bg-transparent"
+                                                name="email" placeholder="Email">
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <input type="phone" class="form-control text-white rounded-0 bg-transparent"
+                                                name="phone" placeholder="Phone">
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <textarea name="address" id="" cols="30" rows="1"
+                                                class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -113,16 +115,17 @@
                 </div>
             </div>
         </div>
+
         <div class="row my_style align-items-center meal rounded">
             <div class="col-md-4 m-3">
-                <form method="POST" action="{{ route('meal.add') }}" enctype="multipart/form-data">
-                    @csrf
+                {{-- <form method="POST" action="{{ route('meal.add') }}" enctype="multipart/form-data"> --}}
+                <form method="POST" id="" enctype="multipart/form-data">
                     <h4 class="mb-4">Add New Meal</h4>
                     <div class="form-row">
                         <div class="form-group col-sm-12">
                             <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
                                 <option value="">>--Select One--<< </option>
-                                        @foreach ($all_names as $all_name)
+                                @foreach ($all_names as $all_name)
                                 <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
                                 @endforeach
                             </select>
@@ -152,7 +155,8 @@
 
                 <!-- edit Modal -->
                 {{-- $html .= '<a href=" '. route('meal.edit', [$row->id]). ' " id="edit"  data-toggle="modal" data-target="#editModalCenter" class="action-btn" title="Edit">Edit</a>'; --}}
-                <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog"
+
+                <div class="modal fade editModal" id="editModalCenter" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -218,6 +222,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row my_style align-items-center market rounded">
             <div class="col-md-4 m-3">
                 <form method="POST" action="{{ route('meal.market') }}" enctype="multipart/form-data">
@@ -450,22 +455,17 @@
     @section('footer_script')
         <script>
 
-            // if (Session('success')) {
-            //     Swal.fire(
-            //         'Good job!',
-            //         'You clicked the button!',
-            //         'success'
-            //     )
-            // }
+            $(function(){
+                $.ajaxSetup({
+                    headers: { 'X-CSRF-Token' : '{{ csrf_token() }}'}
+                });
+                // $.ajaxSetup({
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //     }
+                // });
 
-        $(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            var table = $('.user_datatable').DataTable({
+                var table = $('.user_datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 dom: "lBfrtip",
@@ -493,26 +493,65 @@
                 ]
             });
 
-            $('#saveBtn').click(function(e){
+
+            $('#new_member').submit(function(e){
                 e.preventDefault();
-                $(this).html('Save');
+
+                var data = $(this).serialize();
+                var url = '{{ route('meal.store') }}';
+
                 $.ajax({
-                    data:$('#newMemberForm').serialize();
-                    url:"{{ route('meal.store') }}",
-                    type:"POST",
-                    dataType:'json',
+                    url:url,
+                    method:'POST',
+                    data:data,
                     success:function(data){
-                        alert('ok');
-                        // table.draw();
-                    }
-                    error:function(data){
-                        console.log('Error:',data);
-                        $("#saveBtn").html("Save");
+                        // if(data.success){
+                        //     console.log(data);
+                        // }
+                        // toastr.success(data);
+                        $('#new_member')[0].reset();
+                        table.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
                     }
                 })
             });
 
+            $(document).on('click', '#edit', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: url
+                    , type: 'get'
+                    , success: function(data) {
+                        // alert('ok');
+                        // $('#edit-content').empty();
+                        // $('#edit-content').html(data);
+                        $('.editModal').modal('show');
+                    }
+                    , error: function(err) {
+                        $('.data_preloader').hide();
+                        if (err.status == 0) {
+                            toastr.error('Net Connetion Error. Reload This Page.');
+                        } else if (err.status == 500) {
+                            toastr.error('Server Error, Please contact to the support team.');
+                        }
+                    }
+                });
+            })
+
         });
+
+
+            // if (Session('success')) {
+            //     Swal.fire(
+            //         'Good job!',
+            //         'You clicked the button!',
+            //         'success'
+            //     )
+            // }
+
             // $(document).on('click', '#edit', function(e){
             //     e.preventDefault();
             //     var url = $(this).attr('href');
