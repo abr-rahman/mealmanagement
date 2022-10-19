@@ -5,15 +5,29 @@
     <meta charset="utf-8">
     <meta name="author" content="Devcrud">
     <title>Meal Management</title>
-    <link rel="stylesheet" href="{{ 'dashboard' }}/assets/vendors/themify-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="{{ 'dashboard' }}/assets/css/leadmark.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="sweetalert2.min.css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ 'dashboard' }}/assets/vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="{{ 'dashboard' }}/assets/css/leadmark.css">
     <link rel="stylesheet" href="{{ 'dashboard' }}/assets/css/style.css">
+    {{-- <link rel="stylesheet" href="sweetalert2.min.css"> --}}
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #portfolio {
+                width: inherit;
+                height: inherit;
+                margin: 0;
+                padding: 0;
+            }
 
+        </style>
 </head>
 
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
@@ -64,89 +78,6 @@
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     {{-- <script src="sweetalert2.min.js"></script> --}}
 
-
-    <script>
-        $(function() {
-            var table = $('.meals_datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                dom: 'Bfrtip',
-                pageLength: 4,
-                ajax: "{{ route('meal.meals_datatable') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'breakfast',
-                        name: 'breakfast'
-                    },
-                    {
-                        data: 'lunch',
-                        name: 'lunch'
-                    },
-                    {
-                        data: 'dinner',
-                        name: 'dinner'
-                    },
-                    {
-                        data: 'date',
-                        name: 'date'
-                    },
-                    {
-                        data: 'total',
-                        name: 'total'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
-        });
-        $(function() {
-            var table = $('.market_datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                dom: 'Bfrtip',
-                pageLength: 4,
-                ajax: "{{ route('market.datatable') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'amount',
-                        name: 'amount'
-                    },
-                    {
-                        data: 'formDate',
-                        name: 'formDate'
-                    },
-                    {
-                        data: 'toDate',
-                        name: 'toDate'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
-        });
-    </script>
     @yield('footer_script')
 </body>
 

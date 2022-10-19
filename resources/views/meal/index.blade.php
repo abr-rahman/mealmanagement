@@ -1,498 +1,80 @@
 @extends('layout.dashboard')
 
 @section('content')
-    <h6 class="section-title text-center">Our Meal Management System</h6>
-    <h6 class="section-subtitle mb-5 text-center">New stunning projects for our amazing clients</h6>
+    <h6 class="section-title text-center pt-3">Meal Management System</h6>
+    <h6 class="section-subtitle mb-3 text-center">New stunning projects for our amazing clients</h6>
     <div class="filters">
-        <a href="#" data-filter=".new" class="active">
-            New
-        </a>
-        <a href="#" data-filter=".meal">
-            Meal
-        </a>
-        <a href="#" data-filter=".market">
-            Market
-        </a>
-        <a href="#" data-filter=".deposit">
-            Deposit
-        </a>
-        <a href="#" data-filter=".details">
-            Details
-        </a>
+        <a href="#" data-filter=".new" class="active"> Add</a>
+        <a href="#" data-filter=".meal"> Meal</a>
+        <a href="#" data-filter=".market"> Market</a>
+        <a href="#" data-filter=".deposit"> Deposit</a>
+        <a href="#" data-filter=".details"> Details</a>
     </div>
     <div class="portfolio-container">
 
         <div class="row my_style align-items-center new rounded">
-            <div class="col-md-4 m-3">
-                {{-- <form action="{{ route('meal.store') }}" method="post" enctype="multipart/form-data"> --}}
-                <form id="new_member">
-
-                    <h4 class="mb-4">Add New Member</h4>
-                    <div class="form-row">
-                        <div class="form-group col-sm-12">
-                            <input type="text" class="form-control text-white rounded-0 bg-transparent" name="name"
-                                placeholder="Name">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <input type="email" class="form-control text-white rounded-0 bg-transparent" name="email"
-                                placeholder="Email">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <input type="phone" class="form-control text-white rounded-0 bg-transparent" name="phone"
-                                placeholder="Phone">
-                        </div>
-                        <div class="form-group col-12">
-                            <textarea name="address" id="" cols="30" rows="1"
-                                class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
-                        </div>
-                        <div class="form-group col-12 mb-0">
-                            <button type="submit" class="btn  btn-primary rounded w-md mt-3" id="saveBtn">Save</button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- edit Modal -->
-                <div class="modal fade editModal" id="editModalCenter" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" id="edit-content" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Edit New Member</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form action="" method="post">
-                                <div class="modal-body">
-                                    <div class="form-row">
-                                        <div class="form-group col-sm-6">
-                                            <input type="text" class="form-control text-white rounded-0 bg-transparent"
-                                                name="name" placeholder="Name" value="">
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <input type="email" class="form-control text-white rounded-0 bg-transparent"
-                                                name="email" placeholder="Email">
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <input type="phone" class="form-control text-white rounded-0 bg-transparent"
-                                                name="phone" placeholder="Phone">
-                                        </div>
-                                        <div class="form-group col-6">
-                                            <textarea name="address" id="" cols="30" rows="1"
-                                                class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-6 table_color rounded p-3">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="table table-bordered user_datatable">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Address</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('parts.member')
         </div>
-
         <div class="row my_style align-items-center meal rounded">
-            <div class="col-md-4 m-3">
-                {{-- <form method="POST" action="{{ route('meal.add') }}" enctype="multipart/form-data"> --}}
-                <form method="POST" id="" enctype="multipart/form-data">
-                    <h4 class="mb-4">Add New Meal</h4>
-                    <div class="form-row">
-                        <div class="form-group col-sm-12">
-                            <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
-                                <option value="">>--Select One--<< </option>
-                                @foreach ($all_names as $all_name)
-                                <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <input type="number" class="form-control rounded-0 bg-transparent" name="breakfast"
-                                placeholder="Breakfast">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <input type="number" class="form-control rounded-0 bg-transparent" name="lunch"
-                                placeholder="Lunch">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <input type="number" class="form-control rounded-0 bg-transparent" name="dinner"
-                                placeholder="Dinner">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <input type="date" class="form-control rounded-0 bg-transparent" name="date"
-                                value="{{ date('Y-m-d') }}" placeholder="date">
-                        </div>
-
-                        <div class="form-group col-12 mb-0">
-                            <button type="submit" class="btn btn-primary rounded w-md mt-3">Send</button>
-                        </div>
-                    </div>
-                </form>
-
-                <!-- edit Modal -->
-                {{-- $html .= '<a href=" '. route('meal.edit', [$row->id]). ' " id="edit"  data-toggle="modal" data-target="#editModalCenter" class="action-btn" title="Edit">Edit</a>'; --}}
-
-                <div class="modal fade editModal" id="editModalCenter" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Edit New Member</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-row">
-                                    <div class="form-group col-sm-6">
-                                        <input type="text" class="form-control text-white rounded-0 bg-transparent"
-                                            name="name" placeholder="Name" value="">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="email" class="form-control text-white rounded-0 bg-transparent"
-                                            name="email" placeholder="Email">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="phone" class="form-control text-white rounded-0 bg-transparent"
-                                            name="phone" placeholder="Phone">
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <textarea name="address" id="" cols="30" rows="1"
-                                            class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-8 table_color rounded p-3">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="table table-bordered meals_datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Serial</th>
-                                        <th>Name</th>
-                                        <th>Break.</th>
-                                        <th>Lunch</th>
-                                        <th>Dinner</th>
-                                        <th>Date</th>
-                                        <th>Total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <p>Total Today Meals: </p>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('parts.meal')
         </div>
 
         <div class="row my_style align-items-center market rounded">
-            <div class="col-md-4 m-3">
-                <form method="POST" action="{{ route('meal.market') }}" enctype="multipart/form-data">
-                    @csrf
-                    <h4 class="mb-4">Add New Meal</h4>
-                    <div class="form-row">
-                        <div class="form-group col-sm-12">
-                            <label>Name</label>
-                            <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
-                                <option value="">>--Select One--<< /option>
-                                        @foreach ($all_names as $all_name)
-                                <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>Taka</label>
-                            <input type="number" class="form-control rounded-0 bg-transparent" name="amount"
-                                placeholder="Amount">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>Form Date</label>
-                            <input type="date" class="form-control rounded-0 bg-transparent" name="formDate"
-                                value="{{ date('Y-m-d') }}" placeholder="Form Date">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>To Date</label>
-                            <input type="date" class="form-control rounded-0 bg-transparent" name="toDate"
-                                placeholder="To Date">
-                        </div>
-
-                        <div class="form-group col-12 mb-0">
-                            <button type="submit" class="btn btn-primary rounded w-md mt-3">Send</button>
-                        </div>
-                    </div>
-                </form>
-                <!-- edit Modal -->
-                <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Edit New Member</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-row">
-                                    <div class="form-group col-sm-6">
-                                        <input type="text" class="form-control text-white rounded-0 bg-transparent"
-                                            name="name" placeholder="Name" value="">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="email" class="form-control text-white rounded-0 bg-transparent"
-                                            name="email" placeholder="Email">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="phone" class="form-control text-white rounded-0 bg-transparent"
-                                            name="phone" placeholder="Phone">
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <textarea name="address" id="" cols="30" rows="1"
-                                            class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-8 table_color rounded p-3">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="table table-bordered market_datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Serial</th>
-                                        <th>Name</th>
-                                        <th>Taka</th>
-                                        <th>F.Date</th>
-                                        <th>T.Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-
-                            </table>
-                            <p>Total Today Market: </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('parts.market')
         </div>
+
         <div class="row my_style align-items-center deposit rounded">
-            <div class="col-md-4 m-3">
-                <form method="POST" action="{{ route('meal.market') }}" enctype="multipart/form-data">
-                    @csrf
-                    <h4 class="mb-4">Add New Meal</h4>
-                    <div class="form-row">
-                        <div class="form-group col-sm-12">
-                            <label>Name</label>
-                            <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
-                                <option value="">>--Select One--<< /option>
-                                        @foreach ($all_names as $all_name)
-                                <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>Taka</label>
-                            <input type="number" class="form-control rounded-0 bg-transparent" name="amount"
-                                placeholder="Amount">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>Form Date</label>
-                            <input type="date" class="form-control rounded-0 bg-transparent" name="formDate"
-                                value="{{ date('Y-m-d') }}" placeholder="Form Date">
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>To Date</label>
-                            <input type="date" class="form-control rounded-0 bg-transparent" name="toDate"
-                                placeholder="To Date">
-                        </div>
-
-                        <div class="form-group col-12 mb-0">
-                            <button type="submit" class="btn btn-primary rounded w-md mt-3">Send</button>
-                        </div>
-                    </div>
-                </form>
-                <!-- edit Modal -->
-                <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Edit New Member</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-row">
-                                    <div class="form-group col-sm-6">
-                                        <input type="text" class="form-control text-white rounded-0 bg-transparent"
-                                            name="name" placeholder="Name" value="">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="email" class="form-control text-white rounded-0 bg-transparent"
-                                            name="email" placeholder="Email">
-                                    </div>
-                                    <div class="form-group col-sm-6">
-                                        <input type="phone" class="form-control text-white rounded-0 bg-transparent"
-                                            name="phone" placeholder="Phone">
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <textarea name="address" id="" cols="30" rows="1"
-                                            class="form-control text-white rounded-0 bg-transparent" placeholder="Address"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-8 table_color rounded p-3">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="table table-bordered market_datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Serial</th>
-                                        <th>Name</th>
-                                        <th>Taka</th>
-                                        <th>F.Date</th>
-                                        <th>T.Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-
-                            </table>
-                            <p>Total Today Market: </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('parts.deposite')
         </div>
+
         <div class="row my_style align-items-center details rounded">
-            <div class="col-md-12 table_color rounded p-3">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="table table-bordered market_datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Serial</th>
-                                        <th>Name</th>
-                                        <th>Paid</th>
-                                        <th>Total Meal</th>
-                                        <th>Meal Cost</th>
-                                        <th>Unpaid/Plus</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-
-                            </table>
-                            <p>Total Today Market: </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('parts.details')
         </div>
 
-        @if (Session('success'))
-        @endif
+        <form id="deleted_form" method="post">
+            @csrf
+            @method('DELETE')
+        </form>
+        {{-- @if (Session('success'))
+        @endif --}}
     @endsection
     @section('footer_script')
-        <script>
-
-            $(function(){
-                $.ajaxSetup({
-                    headers: { 'X-CSRF-Token' : '{{ csrf_token() }}'}
-                });
-                // $.ajaxSetup({
-                //     headers: {
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     }
-                // });
-
-                var table = $('.user_datatable').DataTable({
+    <script>
+        $(function(){
+            $.ajaxSetup({
+                headers: { 'X-CSRF-Token' : '{{ csrf_token() }}'}
+            });
+            var table = $('.user_datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 dom: "lBfrtip",
                 "pageLength": parseInt("4"),
                 "lengthMenu": [
-                    [5, 10, 15, 20, 30, 40, -1],
-                    [5, 10, 15, 20, 30, 40, "All"]
+                    [10, 25, 50, 100, 500, 1000, -1],
+                    [10, 25, 50, 100, 500, 1000, "All"]
                 ],
                 ajax: "{{ route('meal.index') }}",
                 columns: [{
-                        data: 'id', name: 'id'
-                    },
-                    {
-                        data: 'name', name: 'name'
-                    },
-                    {
-                        data: 'email', name: 'email'
-                    },
-                    {
-                        data: 'address', name: 'address'
-                    },
-                    {
-                        data: 'action', name: 'action',
-                    },
+                    data: 'id', name: 'id'},{data: 'name', name: 'name'},{data: 'email', name: 'email'},
+                    { data: 'address', name: 'address'},{data: 'action', name: 'action',},
                 ]
             });
-
+            // details datatable start
+            var tableDetails = $('.details_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: "lBfrtip",
+                "pageLength": parseInt("4"),
+                "lengthMenu": [
+                    [10, 25, 50, 100, 500, 1000, -1],
+                    [10, 25, 50, 100, 500, 1000, "All"]
+                ],
+                ajax: "{{ route('meal.details.index') }}",
+                columns: [{
+                        data: 'id', name: 'id'},{data: 'action', name: 'action',},
+                ]
+            });
+            // details datatable end
 
             $('#new_member').submit(function(e){
                 e.preventDefault();
@@ -526,9 +108,9 @@
                     , type: 'get'
                     , success: function(data) {
                         // alert('ok');
-                        // $('#edit-content').empty();
-                        // $('#edit-content').html(data);
-                        $('.editModal').modal('show');
+                        $('#edit-content').empty();
+                        $('#edit-content').html(data);
+                        $('#editModalmember').modal('show');
                     }
                     , error: function(err) {
                         $('.data_preloader').hide();
@@ -541,6 +123,260 @@
                 });
             })
 
+            // $('body').on('click', '#delete', function(){
+            //     var meal_id = $(this).data("id");
+            //     confirm('Are you sure');
+            //     $.ajax({
+            //         type:"DELETE",
+            //         success:function(data){
+            //             alert('pk');
+            //             table.draw();
+            //         }
+            //         error:function(data){
+            //             console.log('Error:', data);
+            //         }
+            //     })
+            // });
+
+            // $(document).on('click', '#delete', function(e) {
+            //     e.preventDefault();
+            //     var url = $(this).attr('href');
+            //     confirm({
+            //         // alert('ok');
+            //         'title': 'Delete Confirmation'
+            //         , 'content': 'Are you sure?'
+            //         , 'buttons': {
+            //             'Yes': {
+            //                 'class': 'yes btn-modal-primary'
+            //                 , 'action': function() {
+            //                     $('#deleted_form').submit();
+            //                 }
+            //             }
+            //             , 'No': {
+            //                 'class': 'no btn-danger'
+            //                 , 'action': function() {
+            //                     console.log('Deleted canceled.');
+            //                 }
+            //             }
+            //         }
+            //     });
+            // });
+
+            // $(document).on('submit', '#deleted_form', function(e) {
+            //     e.preventDefault();
+            //     var url = $(this).attr('action');
+            //     var request = $(this).serialize();
+            //     $.ajax({
+            //         url: url,
+            //         type: 'post',
+            //         data: request,
+            //         success: function(data) {
+            //             if ($.isEmptyObject(data.errorMsg)) {
+            //                 toastr.error(data);
+            //                 table.ajax.reload();
+            //             } else {
+            //                 toastr.error(data.errorMsg);
+            //             }
+            //         },
+            //         error: function(err) {
+            //             if (err.status == 0) {
+            //                 toastr.error('Net Connetion Error. Please check the connection.');
+            //             } else if (err.status == 500) {
+            //                 toastr.error('Server Error. Please contact to the support team.');
+            //             }
+            //         }
+            //     });
+            // });
+            // meal add store -- second section
+
+            $("#delete").click(function(e){
+                e.preventDefault();
+                var id = $(this).attr('href');
+                var token = $("meta[name='csrf-token']").attr("content");
+                $.ajax(
+                {
+                    url: "row/"+id,
+                    type: 'DELETE',
+                    data: {
+                        "id": id,
+                        "_token": token,
+                    },
+                    success: function (){
+                        console.log("it Works");
+                    }
+                });
+
+                });
+            var meals_datatable = $('.meals_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Bfrtip',
+                pageLength: 4,
+                ajax: "{{ route('meal.meals_datatable') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'breakfast',
+                        name: 'breakfast'
+                    },
+                    {
+                        data: 'lunch',
+                        name: 'lunch'
+                    },
+                    {
+                        data: 'dinner',
+                        name: 'dinner'
+                    },
+                    {
+                        data: 'date',
+                        name: 'date'
+                    },
+                    {
+                        data: 'total',
+                        name: 'total'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            $('#mealAddStore').submit(function(e){
+                e.preventDefault();
+
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+                $.ajax({
+                    url:url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        // alert(data);
+                        $('#mealAddStore')[0].reset();
+                        meals_datatable.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            });
+
+            // market add store -- second section
+            var mealMarketStore = $('.market_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Bfrtip',
+                pageLength: 4,
+                ajax: "{{ route('market.datatable') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'amount',
+                        name: 'amount'
+                    },
+                    {
+                        data: 'formDate',
+                        name: 'formDate'
+                    },
+                    {
+                        data: 'toDate',
+                        name: 'toDate'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            $('#mealMarketStore').submit(function(e){
+                e.preventDefault();
+
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+                $.ajax({
+                    url:url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        // alert(data);
+                        $('#mealMarketStore')[0].reset();
+                        mealMarketStore.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            });
+
+            // deposite add store -- second section
+            var deposite = $('.deposite_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Bfrtip',
+                pageLength: 4,
+                ajax: "{{ route('deposite.datatable') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'amount',
+                        name: 'amount'
+                    },
+                    {
+                        data: 'date',
+                        name: 'date'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            $('#depositeStore').submit(function(e){
+                e.preventDefault();
+
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+                $.ajax({
+                    url:url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        // alert(data);
+                        $('#depositeStore')[0].reset();
+                        deposite.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            });
         });
 
 
@@ -583,5 +419,5 @@
             //         }
             //     });
             // });
-        </script>
-    @endsection
+    </script>
+@endsection
