@@ -13,28 +13,42 @@
     <div class="portfolio-container">
 
         <div class="row my_style align-items-center new rounded">
-            @include('parts.member')
+            @include('partials.member')
         </div>
         <div class="row my_style align-items-center meal rounded">
-            @include('parts.meal')
+            @include('partials.meal')
         </div>
 
         <div class="row my_style align-items-center market rounded">
-            @include('parts.market')
+            @include('partials.market')
         </div>
 
         <div class="row my_style align-items-center deposit rounded">
-            @include('parts.deposite')
+            @include('partials.deposite')
         </div>
 
         <div class="row my_style align-items-center details rounded">
-            @include('parts.details')
+            @include('partials.details')
         </div>
 
-        <form id="deleted_form" method="post">
-            @csrf
-            @method('DELETE')
-        </form>
+        <div class="modal editMealMemberModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit New Member</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" id="meal_member_edit_modal_body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         {{-- @if (Session('success'))
         @endif --}}
     @endsection
@@ -53,7 +67,7 @@
                     [10, 25, 50, 100, 500, 1000, -1],
                     [10, 25, 50, 100, 500, 1000, "All"]
                 ],
-                ajax: "{{ route('meal.index') }}",
+                ajax: "{{ route('member.index') }}",
                 columns: [{
                     data: 'id', name: 'id'},{data: 'name', name: 'name'},{data: 'email', name: 'email'},
                     { data: 'address', name: 'address'},{data: 'action', name: 'action',},
@@ -80,7 +94,7 @@
                 e.preventDefault();
 
                 var data = $(this).serialize();
-                var url = '{{ route('meal.store') }}';
+                var url = '{{ route('member.store') }}';
 
                 $.ajax({
                     url:url,
@@ -90,7 +104,7 @@
                         // if(data.success){
                         //     console.log(data);
                         // }
-                        // toastr.success(data);
+                        toastr.success(data);
                         $('#new_member')[0].reset();
                         table.ajax.reload();
                     },
@@ -102,145 +116,88 @@
 
             $(document).on('click', '#edit', function(e) {
                 e.preventDefault();
+
                 var url = $(this).attr('href');
                 $.ajax({
                     url: url
                     , type: 'get'
                     , success: function(data) {
-                        // alert('ok');
-                        $('#edit-content').empty();
-                        $('#edit-content').html(data);
-                        $('#editModalmember').modal('show');
+                        $('#meal_member_edit_modal_body').html(data);
+                        $('.editMealMemberModal').modal('show');
                     }
                     , error: function(err) {
                         $('.data_preloader').hide();
                         if (err.status == 0) {
+
                             toastr.error('Net Connetion Error. Reload This Page.');
                         } else if (err.status == 500) {
+
                             toastr.error('Server Error, Please contact to the support team.');
                         }
                     }
                 });
             })
 
-            // $('body').on('click', '#delete', function(){
-            //     var meal_id = $(this).data("id");
-            //     confirm('Are you sure');
-            //     $.ajax({
-            //         type:"DELETE",
-            //         success:function(data){
-            //             alert('pk');
-            //             table.draw();
-            //         }
-            //         error:function(data){
-            //             console.log('Error:', data);
-            //         }
-            //     })
-            // });
+            // edit member
+            $(document).on('submit', '#memberFormUpdate', function(e) {
+                e.preventDefault();
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
 
-            // $(document).on('click', '#delete', function(e) {
-            //     e.preventDefault();
-            //     var url = $(this).attr('href');
-            //     confirm({
-            //         // alert('ok');
-            //         'title': 'Delete Confirmation'
-            //         , 'content': 'Are you sure?'
-            //         , 'buttons': {
-            //             'Yes': {
-            //                 'class': 'yes btn-modal-primary'
-            //                 , 'action': function() {
-            //                     $('#deleted_form').submit();
-            //                 }
-            //             }
-            //             , 'No': {
-            //                 'class': 'no btn-danger'
-            //                 , 'action': function() {
-            //                     console.log('Deleted canceled.');
-            //                 }
-            //             }
-            //         }
-            //     });
-            // });
-
-            // $(document).on('submit', '#deleted_form', function(e) {
-            //     e.preventDefault();
-            //     var url = $(this).attr('action');
-            //     var request = $(this).serialize();
-            //     $.ajax({
-            //         url: url,
-            //         type: 'post',
-            //         data: request,
-            //         success: function(data) {
-            //             if ($.isEmptyObject(data.errorMsg)) {
-            //                 toastr.error(data);
-            //                 table.ajax.reload();
-            //             } else {
-            //                 toastr.error(data.errorMsg);
-            //             }
-            //         },
-            //         error: function(err) {
-            //             if (err.status == 0) {
-            //                 toastr.error('Net Connetion Error. Please check the connection.');
-            //             } else if (err.status == 500) {
-            //                 toastr.error('Server Error. Please contact to the support team.');
-            //             }
-            //         }
-            //     });
-            // });
-            // meal add store -- second section
-
-            $("#delete").click(function(e){
+                $.ajax({
+                    url:url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        // if(data.success){
+                        //     console.log(data);
+                        // }
+                        toastr.success(data);
+                        $('.editMealMemberModal').modal('hide');
+                        $('#memberFormUpdate')[0].reset();
+                        table.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            });
+            //  member delete -- second section
+            $(document).on('click', '#delete', function(e) {
                 e.preventDefault();
                 var id = $(this).attr('href');
-                var token = $("meta[name='csrf-token']").attr("content");
                 $.ajax(
                 {
-                    url: "row/"+id,
+                    url: id,
                     type: 'DELETE',
                     data: {
                         "id": id,
-                        "_token": token,
                     },
-                    success: function (){
-                        console.log("it Works");
+                    success: function (data){
+                        toastr.success(data);
+                        table.ajax.reload();
                     }
                 });
 
-                });
+            });
             var meals_datatable = $('.meals_datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 dom: 'Bfrtip',
                 pageLength: 4,
                 ajax: "{{ route('meal.meals_datatable') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'breakfast',
-                        name: 'breakfast'
-                    },
-                    {
-                        data: 'lunch',
-                        name: 'lunch'
-                    },
-                    {
-                        data: 'dinner',
-                        name: 'dinner'
-                    },
-                    {
-                        data: 'date',
-                        name: 'date'
-                    },
-                    {
-                        data: 'total',
-                        name: 'total'
-                    },
+                columns: [
+                    { data: 'id', name: 'id'},
+                    { data: 'name', name: 'name'},
+                    { data: 'breakfast', name: 'breakfast'},
+                    { data: 'lunch', name: 'lunch'},
+                    { data: 'dinner', name: 'dinner'},
+                    { data: 'date', name: 'date'},
+                    { data: 'total', name: 'total'},
+                    // {
+                    //     data: 'total_meal',
+                    //     name: 'total_meal'
+                    // },
                     {
                         data: 'action',
                         name: 'action',
@@ -248,6 +205,11 @@
                         searchable: false
                     },
                 ]
+                // ,fnDrawCallback: function(){
+                //     var total_meal = sum_table_col($('.meals_datatable'), 'total_meal');
+                //     $('#total_meal').text(total_meal);
+
+                // }
             });
 
             $('#mealAddStore').submit(function(e){
@@ -260,7 +222,7 @@
                     method:'POST',
                     data:data,
                     success:function(data){
-                        // alert(data);
+                        toastr.success(data);
                         $('#mealAddStore')[0].reset();
                         meals_datatable.ajax.reload();
                     },
@@ -316,7 +278,7 @@
                     method:'POST',
                     data:data,
                     success:function(data){
-                        // alert(data);
+                        toastr.success(data);
                         $('#mealMarketStore')[0].reset();
                         mealMarketStore.ajax.reload();
                     },
@@ -368,7 +330,7 @@
                     method:'POST',
                     data:data,
                     success:function(data){
-                        // alert(data);
+                        toastr.success(data);
                         $('#depositeStore')[0].reset();
                         deposite.ajax.reload();
                     },
@@ -380,44 +342,5 @@
         });
 
 
-            // if (Session('success')) {
-            //     Swal.fire(
-            //         'Good job!',
-            //         'You clicked the button!',
-            //         'success'
-            //     )
-            // }
-
-            // $(document).on('click', '#edit', function(e){
-            //     e.preventDefault();
-            //     var url = $(this).attr('href');
-            //     $.ajax({
-            //         url: url,
-            //         success: function(data) {
-
-            //             $('#edit-content').html(data);
-            //             $('.editModal').modal('show');
-            //         }
-            //     })
-            // })
-
-
-            // $("#edit").click(function(e) {
-            //     e.preventDefault();
-            //     var url = $(this).attr('href');
-            //     alert('hi');
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: '/ajaxRequest',
-            //         data: {
-            //             name: name,
-            //             password: password,
-            //             email: email
-            //         },
-            //         success: function(data) {
-            //             alert(data.success);
-            //         }
-            //     });
-            // });
     </script>
 @endsection

@@ -24,7 +24,6 @@
             </div>
         </div>
     </form>
-    <!-- edit Modal -->
 </div>
 <div class="col-md-6 table_color rounded p-3">
     <div class="container">
@@ -47,3 +46,7 @@
         </div>
     </div>
 </div>
+<form id="deleted_form" action="" method="post">
+    @csrf
+    {{-- @method('DELETE') --}}
+</form>
