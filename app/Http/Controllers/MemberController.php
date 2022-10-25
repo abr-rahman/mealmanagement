@@ -17,9 +17,8 @@ class MemberController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<div class="dropdown table-dropdown" id="accordion">';
-                    // $html .= '<a href=" ' . route('meal.edit', [$row->id]) . ' " id="edit"  data-toggle="modal" data-target="#editModalmember" class="action-btn p-2" title="Edit"><i class="fa-solid fa-pen-to-square text-succss"></i></a>';
-                    $html .= '<a href=" ' . route('meal.edit', [$row->id]) . '" id="edit" class="action-btn p-2"><i class="fa-solid fa-pen-to-square text-success"></i></a>';
-                    $html .= '<a href="' . route('meal.destroy', $row->id) . '" id="delete" class=" action-btn p-2" title="Delete"><i class="fa-solid fa-trash-can text-danger"></i></a>';
+                    $html .= '<a href=" ' . route('member.edit', [$row->id]) . '" id="edit" class="action-btn p-2"><i class="fa-solid fa-pen-to-square text-success"></i></a>';
+                    $html .= '<a href="' . route('member.destroy', $row->id) . '" id="delete" class=" action-btn p-2" title="Delete"><i class="fa-solid fa-trash-can text-danger"></i></a>';
                     $html .= '</div>';
                     return $html;
                 })

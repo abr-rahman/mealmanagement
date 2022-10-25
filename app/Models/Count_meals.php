@@ -10,7 +10,4 @@ class Count_meals extends Model
 {
     use HasFactory;
 
-    public function relatioToMeal(){
-        return $this->belongsTo(Meal::class, 'name', 'id');
-    }
 }
