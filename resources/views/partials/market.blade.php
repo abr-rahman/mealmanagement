@@ -7,8 +7,8 @@
                 <label>Name</label>
                 <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
                     <option value=""> >>--Select One--<< </option>
-                            @foreach ($all_names as $all_name)
-                    <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
+                    @foreach ($all_names as $all_name)
+                        <option>{{ $all_name->name }}</option>
                     @endforeach
                 </select>
             </div>

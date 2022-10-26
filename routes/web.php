@@ -34,8 +34,10 @@ Route::post('/deposite/store', [DepositeController::class, 'store'])->name('depo
 
 Route::get('/meals/details', [MealController::class, 'detailsIndex'])->name('meal.details.index');
 
+Route::get('/market/datatable', [MarketController::class, 'index'])->name('market.datatable');
 Route::post('/market/market', [MarketController::class, 'store'])->name('meal.market.store');
-Route::get('/market/market/datatable', [MarketController::class, 'index'])->name('market.datatable');
+Route::get('/market/eidt/{id}', [MarketController::class, 'edit'])->name('market.edit');
+Route::post('/market/update/{id}', [MarketController::class, 'update'])->name('market.update');
 
 Route::get('/member', [MemberController::class, 'index'])->name('member.index');
 Route::post('/member/store', [MemberController::class, 'store'])->name('member.store');

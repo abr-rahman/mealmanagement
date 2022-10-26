@@ -56,8 +56,22 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div class="modal-body" id="meal_edit_modal_body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal editMarket" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Market</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="market_edit_modal_body">
 
                     </div>
                 </div>
@@ -153,54 +167,6 @@
                     }
                 });
             })
-            // edit meal
-            $(document).on('click', '#EditMeal', function(e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                $.ajax({
-                    url: url
-                    , type: 'get'
-                    , success: function(data) {
-                        $('#meal_edit_modal_body').html(data);
-                        $('.editMeal').modal('show');
-                    }
-                    , error: function(err) {
-                        $('.data_preloader').hide();
-                        if (err.status == 0) {
-
-                            toastr.error('Net Connetion Error. Reload This Page.');
-                        } else if (err.status == 500) {
-
-                            toastr.error('Server Error, Please contact to the support team.');
-                        }
-                    }
-                });
-            })
-
-            // update meal
-            $(document).on('submit', '#mealFormUpdate', function(e) {
-                e.preventDefault();
-                var data = $(this).serialize();
-                var url = $(this).attr('action');
-
-                $.ajax({
-                    url:url,
-                    method:'POST',
-                    data:data,
-                    success:function(data){
-                        // if(data.success){
-                        //     console.log(data);
-                        // }
-                        toastr.success(data);
-                        $('.editMeal').modal('hide');
-                        $('#mealFormUpdate')[0].reset();
-                        meals_datatable.ajax.reload();
-                    },
-                    error:function(error){
-                        console.log(error);
-                    }
-                })
-            });
             // update member
             $(document).on('submit', '#memberFormUpdate', function(e) {
                 e.preventDefault();
@@ -225,6 +191,102 @@
                     }
                 })
             });
+            // edit meal
+            $(document).on('click', '#EditMeal', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: url
+                    , type: 'get'
+                    , success: function(data) {
+                        $('#meal_edit_modal_body').html(data);
+                        $('.editMeal').modal('show');
+                    }
+                    , error: function(err) {
+                        $('.data_preloader').hide();
+                        if (err.status == 0) {
+
+                            toastr.error('Net Connetion Error. Reload This Page.');
+                        } else if (err.status == 500) {
+
+                            toastr.error('Server Error, Please contact to the support team.');
+                        }
+                    }
+                });
+            })
+            // edit meal
+            $(document).on('click', '#EditMarket', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: url
+                    , type: 'get'
+                    , success: function(data) {
+                        $('#market_edit_modal_body').html(data);
+                        $('.editMarket').modal('show');
+                    }
+                    , error: function(err) {
+                        $('.data_preloader').hide();
+                        if (err.status == 0) {
+
+                            toastr.error('Net Connetion Error. Reload This Page.');
+                        } else if (err.status == 500) {
+
+                            toastr.error('Server Error, Please contact to the support team.');
+                        }
+                    }
+                });
+            })
+
+            // update meal
+            $(document).on('submit', '#marketFormUpdate', function(e) {
+                e.preventDefault();
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+
+                $.ajax({
+                    url:url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        // if(data.success){
+                        //     console.log(data);
+                        // }
+                        toastr.success(data);
+                        $('.editMarket').modal('hide');
+                        $('#marketFormUpdate')[0].reset();
+                        mealMarketStore.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            });
+            // update meal
+            $(document).on('submit', '#mealFormUpdate', function(e) {
+                e.preventDefault();
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+
+                $.ajax({
+                    url:url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        // if(data.success){
+                        //     console.log(data);
+                        // }
+                        toastr.success(data);
+                        $('.editMeal').modal('hide');
+                        $('#mealFormUpdate')[0].reset();
+                        meals_datatable.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            });
+
             //  member delete -- second section
             $(document).on('click', '#delete', function(e) {
                 e.preventDefault();

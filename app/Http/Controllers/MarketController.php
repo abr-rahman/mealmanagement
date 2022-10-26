@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Meal;
 use App\Models\Market;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -16,14 +17,11 @@ class MarketController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<div class="dropdown table-dropdown" id="accordion">';
-                    $html .= '<a href="" id="edit" class="action-btn p-3" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>';
+                    $html .= '<a href="'. route('market.edit', $row->id) .'" id="EditMarket" class="action-btn p-3" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>';
                     $html .= '</div>';
                     return $html;
                 })
-                ->editColumn('name', function ($row) {
-                    return $row->relatioToMeal->name ?? 'N/A';
-                })
-                ->rawColumns(['action', 'name'])
+                ->rawColumns(['action'])
                 ->make(true);
         }
     }
@@ -42,5 +40,25 @@ class MarketController extends Controller
         $meal->save();
 
         return response()->json('Market list created successfully!');
+    }
+    public function edit($id){
+        $members = Meal::all();
+        $market = Market::find($id);
+        // return $market;
+        return view('partials.ajax_view.edit_market', compact('market', 'members'));
+    }
+    public function update(Request $request, $id){
+        $request->validate([
+            'name' => 'required',
+            'amount' => 'required'
+        ]);
+        $meal = Market::find($id);
+        $meal->name = $request->name;
+        $meal->amount = $request->amount;
+        $meal->formDate = $request->formDate;
+        $meal->toDate = $request->toDate;
+        $meal->save();
+
+        return response()->json('Market update successfully!');
     }
 }
