@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Meal;
 use App\Models\Market;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -42,7 +42,7 @@ class MarketController extends Controller
         return response()->json('Market list created successfully!');
     }
     public function edit($id){
-        $members = Meal::all();
+        $members = Member::all();
         $market = Market::find($id);
         // return $market;
         return view('partials.ajax_view.edit_market', compact('market', 'members'));

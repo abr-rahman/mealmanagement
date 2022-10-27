@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Log;
-use App\Models\Meal;
+use App\Models\Member;
 use App\Models\Details;
 use App\Models\Deposite;
-use App\Models\Count_meals;
+use App\Models\Meal;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -15,7 +15,7 @@ class MealController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Count_meals::latest()->get();
+            $data = Meal::latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -42,7 +42,7 @@ class MealController extends Controller
         $request->validate([
             'name' => 'required'
         ]);
-        $meal = new Count_meals();
+        $meal = new Meal();
         $meal->name = $request->name;
         $meal->breakfast = $request->breakfast;
         $meal->lunch = $request->lunch;
@@ -53,15 +53,15 @@ class MealController extends Controller
     }
 
     public function edit($id){
-        $members = Meal::all();
-        $newmember = Count_meals::where('id', $id)->first();
+        $members = Member::all();
+        $newmember = Meal::where('id', $id)->first();
         return view('partials.ajax_view.edit_meal', compact('members', 'newmember'));
     }
     public function update(Request $request, $id){
         $request->validate([
             'name' => 'required'
         ]);
-        $meal = Count_meals::find($id);
+        $meal = Meal::find($id);
         $meal->name = $request->name;
         $meal->breakfast = $request->breakfast;
         $meal->lunch = $request->lunch;

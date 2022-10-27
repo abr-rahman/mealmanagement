@@ -62,6 +62,7 @@
                 </div>
             </div>
         </div>
+        {{-- Edit Market Modal --}}
         <div class="modal editMarket" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -72,6 +73,22 @@
                         </button>
                     </div>
                     <div class="modal-body" id="market_edit_modal_body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Edit Deposite Modal --}}
+        <div class="modal editDeposite" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Deposite</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="deposite_edit_modal_body">
 
                     </div>
                 </div>
@@ -166,7 +183,7 @@
                         }
                     }
                 });
-            })
+            });
             // update member
             $(document).on('submit', '#memberFormUpdate', function(e) {
                 e.preventDefault();
@@ -213,8 +230,9 @@
                         }
                     }
                 });
-            })
-            // edit meal
+            });
+
+            // edit Market
             $(document).on('click', '#EditMarket', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
@@ -236,8 +254,51 @@
                         }
                     }
                 });
-            })
+            });
+            // edit Deposite
+            $(document).on('click', '#editDeposite', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: url
+                    , type: 'get'
+                    , success: function(data) {
+                        $('#deposite_edit_modal_body').html(data);
+                        $('.editDeposite').modal('show');
+                    }
+                    , error: function(err) {
+                        $('.data_preloader').hide();
+                        if (err.status == 0) {
 
+                            toastr.error('Net Connetion Error. Reload This Page.');
+                        } else if (err.status == 500) {
+
+                            toastr.error('Server Error, Please contact to the support team.');
+                        }
+                    }
+                });
+            });
+            // update Deposite
+            $(document).on('submit', '#depositeFormUpdate', function(e) {
+                e.preventDefault();
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+
+                $.ajax({
+                    url:url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        toastr.success(data);
+                        $('.editDeposite').modal('hide');
+                        $('#depositeFormUpdate')[0].reset();
+                        deposite.ajax.reload();
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            });
             // update meal
             $(document).on('submit', '#marketFormUpdate', function(e) {
                 e.preventDefault();

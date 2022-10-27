@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('meals', function (Blueprint $table) {
+        Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('breakfast')->nullable();
-            $table->integer('lunch')->nullable()->default(0);
-            $table->integer('dinner')->nullable()->default(0);
-            $table->string('date')->nullable();
-            $table->integer('status')->default(1);
+            $table->string('email')->nullable();
+            $table->string('phone');
+            $table->string('address');
+            $table->string('profile_image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('meals');
+        Schema::dropIfExists('members');
     }
 };

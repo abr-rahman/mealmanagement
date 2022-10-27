@@ -31,6 +31,8 @@ Route::post('/meal/update/{id}', [MealController::class, 'update'])->name('meal.
 
 Route::get('/deposite/index', [DepositeController::class, 'index'])->name('deposite.datatable');
 Route::post('/deposite/store', [DepositeController::class, 'store'])->name('deposite.store');
+Route::get('/deposite/edit/{id}', [DepositeController::class, 'edit'])->name('deposite.edit');
+Route::post('/deposite/update/{id}', [DepositeController::class, 'update'])->name('deposite.update');
 
 Route::get('/meals/details', [MealController::class, 'detailsIndex'])->name('meal.details.index');
 

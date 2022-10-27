@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Log;
-use App\Models\Meal;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -12,7 +12,7 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Meal::latest()->get();
+            $data = Member::latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -26,7 +26,7 @@ class MemberController extends Controller
                 ->make(true);
         }
 
-        $all_names = Meal::all();
+        $all_names = Member::all();
         // $all_names = DB::table('meals')->where('id', 'name')->first();
         return view('meal.index', compact('all_names'));
     }
@@ -39,7 +39,7 @@ class MemberController extends Controller
             'address' => 'required'
         ]);
 
-        Meal::create([
+        Member::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
@@ -50,14 +50,14 @@ class MemberController extends Controller
     }
     public function edit($id)
     {
-        $members = Meal::all();
-        $newmember = Meal::where('id', $id)->first();
+        $members = Member::all();
+        $newmember = Member::where('id', $id)->first();
 
         return view('partials.ajax_view.edit_member', compact('newmember', 'members'));
     }
     public function destroy($id)
     {
-        $mem = Meal::find($id);
+        $mem = Member::find($id);
         $mem->delete();
         return response()->json('Member deleted successfully!');
     }
@@ -68,7 +68,7 @@ class MemberController extends Controller
             'phone' => 'required',
             'address' => 'required'
         ]);
-        $members = Meal::find($id);
+        $members = Member::find($id);
         $members->name = $request->name;
         $members->email = $request->email;
         $members->phone = $request->phone;
