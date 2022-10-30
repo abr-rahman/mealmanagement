@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Log;
+use App\Models\Meal;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -57,8 +58,15 @@ class MemberController extends Controller
     }
     public function destroy($id)
     {
-        $mem = Member::find($id);
-        $mem->delete();
+        // $member = Member::find($id);
+
+        $member = Member::with(['meal'])->where('id', $id)->first();
+
+        if(count($member->meal) > 0) {
+            return response()->json(['errorMsg' => 'Can not delete member']);
+        }
+
+        $member->delete();
         return response()->json('Member deleted successfully!');
     }
     public function update(Request $request, $id)
@@ -75,5 +83,18 @@ class MemberController extends Controller
         $members->address = $request->address;
         $members->save();
         return response()->json('Member update successfully!');
+    }
+
+    public function recycle(){
+        $members = Member::onlyTrashed()->get();
+        return view('partials.ajax_view.recycle', compact('members'));
+    }
+    public function restore($id){
+        Member::onlyTrashed()->where('id', $id)->restore();
+        return response()->json('Member restore successfully!');
+    }
+    public function force_delete($id){
+        Member::onlyTrashed()->where('id', $id)->forceDelete();
+        return response()->json('Member permanent delete successfully!');
     }
 }

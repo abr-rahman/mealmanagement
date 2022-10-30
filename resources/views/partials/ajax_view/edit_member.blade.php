@@ -2,12 +2,7 @@
     @csrf
     <div class="form-row">
         <div class="form-group col-sm-6">
-            <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
-                <option> >>--Select One--<< </option>
-                @foreach ($members as $member)
-                    <option>{{ $member->name }}</option>
-                @endforeach
-            </select>
+            <input type="text" class="form-control text-white rounded-0 bg-transparent" name="name" placeholder="Name" value="{{ $newmember->name }}" required>
         </div>
 
         <div class="form-group col-sm-6">

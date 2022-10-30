@@ -21,17 +21,20 @@ class DepositeController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
-                ->rawColumns(['action', 'name'])
+                ->editColumn('member_id', function($row){
+                    return $row->member->name ?? 'N/A';
+                })
+                ->rawColumns(['action', 'name', 'member_id'])
                 ->make(true);
         }
     }
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'member_id' => 'required'
         ]);
         $deposite = new Deposite();
-        $deposite->name = $request->name;
+        $deposite->member_id = $request->member_id;
         $deposite->amount = $request->amount;
         $deposite->date = $request->date;
         $deposite->save();
@@ -44,10 +47,10 @@ class DepositeController extends Controller
     }
     public function update(Request $request, $id){
         $request->validate([
-            'name' => 'required'
+            'member_id' => 'required'
         ]);
         $deposite = Deposite::find($id);
-        $deposite->name = $request->name;
+        $deposite->member_id = $request->member_id;
         $deposite->amount = $request->amount;
         $deposite->date = $request->date;
         $deposite->save();

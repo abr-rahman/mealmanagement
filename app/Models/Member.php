@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Meal;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Member extends Model
 {
@@ -12,4 +13,8 @@ class Member extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function meal(){
+        return $this->hasMany(Meal::class, 'id');
+    }
 }

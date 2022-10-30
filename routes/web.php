@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\BachelorController;
@@ -17,6 +18,12 @@ use App\Http\Controllers\MemberController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/register', [AuthController::class, 'index']);
+Route::post('/register/store', [AuthController::class, 'register'])->name('register.store');
+Route::get('/login', [AuthController::class, 'loginIndex'])->name('login');
+Route::post('/login/index', [AuthController::class, 'login'])->name('login.store');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,5 +53,9 @@ Route::post('/member/store', [MemberController::class, 'store'])->name('member.s
 Route::get('/member/edit/{id}', [MemberController::class, 'edit'])->name('member.edit');
 Route::delete('/member/destroy/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
 Route::post('/member/update/{id}', [MemberController::class, 'update'])->name('member.update');
+
+Route::get('/recycle', [MemberController::class, 'recycle'])->name('recycle');
+Route::get('/recycle/restore/{id}', [MemberController::class, 'restore'])->name('recycle.restore');
+Route::delete('/recycle/delete/{id}', [MemberController::class, 'force_delete'])->name('recycle.delete');
 
 

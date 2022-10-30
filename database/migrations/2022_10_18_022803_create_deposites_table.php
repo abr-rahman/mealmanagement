@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('deposites', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedBigInteger('member_id');
             $table->integer('amount');
             $table->string('date')->nullable();
+            $table->foreign(['member_id'])->references(['id'])->on('members')->onDelete('CASCADE');
             $table->softDeletes();
             $table->timestamps();
         });

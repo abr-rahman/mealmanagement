@@ -21,7 +21,10 @@ class MarketController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
-                ->rawColumns(['action'])
+                ->editColumn('member_id', function ($row) {
+                    return $row->member->name ?? 'N/A';
+                })
+                ->rawColumns(['action', 'member_id'])
                 ->make(true);
         }
     }
@@ -29,11 +32,11 @@ class MarketController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'member_id' => 'required',
             'amount' => 'required'
         ]);
         $meal = new Market();
-        $meal->name = $request->name;
+        $meal->member_id = $request->member_id;
         $meal->amount = $request->amount;
         $meal->formDate = $request->formDate;
         $meal->toDate = $request->toDate;
@@ -49,11 +52,11 @@ class MarketController extends Controller
     }
     public function update(Request $request, $id){
         $request->validate([
-            'name' => 'required',
+            'member_id' => 'required',
             'amount' => 'required'
         ]);
         $meal = Market::find($id);
-        $meal->name = $request->name;
+        $meal->member_id = $request->member_id;
         $meal->amount = $request->amount;
         $meal->formDate = $request->formDate;
         $meal->toDate = $request->toDate;

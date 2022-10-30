@@ -27,12 +27,15 @@ class MealController extends Controller
                 ->editColumn('total', function ($row) {
                     return $row->breakfast + $row->lunch + $row->dinner;
                 })
+                ->editColumn('member_id', function ($row) {
+                    return $row->member->name ?? 'N/A';
+                })
                 ->setRowData([
                     'total' => function ($row) {
                         return 'row' . $row->id;
                     },
                 ])
-                ->rawColumns(['action', 'name'])
+                ->rawColumns(['action', 'name', 'member_id'])
                 ->make(true);
         }
     }
@@ -40,10 +43,10 @@ class MealController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'member_id' => 'required'
         ]);
         $meal = new Meal();
-        $meal->name = $request->name;
+        $meal->member_id = $request->member_id;
         $meal->breakfast = $request->breakfast;
         $meal->lunch = $request->lunch;
         $meal->dinner = $request->dinner;
@@ -59,10 +62,10 @@ class MealController extends Controller
     }
     public function update(Request $request, $id){
         $request->validate([
-            'name' => 'required'
+            'member_id' => 'required'
         ]);
         $meal = Meal::find($id);
-        $meal->name = $request->name;
+        $meal->member_id = $request->member_id;
         $meal->breakfast = $request->breakfast;
         $meal->lunch = $request->lunch;
         $meal->dinner = $request->dinner;

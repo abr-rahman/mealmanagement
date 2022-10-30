@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedBigInteger('member_id');
             $table->integer('breakfast')->nullable();
             $table->integer('lunch')->nullable()->default(0);
             $table->integer('dinner')->nullable()->default(0);
             $table->string('date')->nullable();
             $table->integer('status')->default(1);
+            $table->foreign(['member_id'])->references(['id'])->on('members')->onDelete('CASCADE');
             $table->softDeletes();
             $table->timestamps();
         });

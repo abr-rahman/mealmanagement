@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Deposite extends Model
 {
     use HasFactory;
-    public function relatioToMeal()
+    public function member()
     {
-        return $this->belongsTo(Member::class, 'name', 'id');
+        return $this->belongsTo(Member::class, 'member_id', 'id');
     }
 }

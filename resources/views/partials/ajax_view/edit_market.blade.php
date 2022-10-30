@@ -5,10 +5,10 @@
             <div class="col-3">
                 <label for="">Name</label>
             </div>
-            <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
+            <select name="member_id" class="form-control text-dard rounded-0 bg-transparent" required>
                 <option> >>--Select One--<< </option>
                 @foreach ($members as $member)
-                    <option value="{{ $member->name }}">{{ $member->name }}</option>
+                    <option value="{{ $member->id }}">{{ $member->name }}</option>
                 @endforeach
             </select>
         </div>

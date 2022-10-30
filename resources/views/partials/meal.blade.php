@@ -4,10 +4,10 @@
         <h4 class="mb-4">Add New Meal</h4>
         <div class="form-row">
             <div class="form-group col-sm-12">
-                <select name="name" class="form-control text-dard rounded-0 bg-transparent" required>
+                <select name="member_id" class="form-control text-dard rounded-0 bg-transparent" required>
                     <option value=""> >>--Select One--<< </option>
                     @foreach ($all_names as $all_name)
-                    <option>{{ $all_name->name }}</option>
+                        <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
                     @endforeach
                 </select>
             </div>
