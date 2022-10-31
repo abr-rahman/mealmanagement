@@ -7,11 +7,18 @@ use App\Models\Member;
 use App\Models\Details;
 use App\Models\Deposite;
 use App\Models\Meal;
+use App\Service\MealServiceInterface;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class MealController extends Controller
 {
+    private MealServiceInterface $mealService;
+    public function __construct(MealServiceInterface $mealService)
+    {
+        $this->mealService = $mealService;
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -75,8 +82,13 @@ class MealController extends Controller
     }
 
     public function detailsIndex(Request $request){
+
+        $startDate = '2022-10-01';
+        $endDate = '2022-11-10';
+
+        ['report' => $data] = $this->mealService->getReportByDateRange($startDate, $endDate);
+
         if ($request->ajax()) {
-            $data = Deposite::latest()->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -85,19 +97,22 @@ class MealController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
-                // ->editColumn('total', function ($row) {
-                //     return $row->breakfast + $row->lunch + $row->dinner;
-                // })
-                // ->setRowData([
-                //     'total' => function ($row) {
-                //         return 'row-' . $row->id;
-                //     },
-                // ])
                 ->editColumn('name', function ($row) {
-                    // Log::info($row->relatioToMeal);
-                    return $row->relatioToMeal->name ?? 'N/A';
+                    return $row->name ?? 'N/A';
                 })
-                ->rawColumns(['action', 'name'])
+                ->addColumn('paid', function($row) {
+                    return $row->paid;
+                })
+                ->addColumn('total_meal', function($row) {
+                    return $row->total_meal;
+                })
+                ->addColumn('meal_cost', function($row) {
+                    return $row->meal_cost;
+                })
+                ->addColumn('status', function($row) {
+                    return $row->status;
+                })
+                ->rawColumns(['action', 'name', 'paid', 'total_meal', 'meal_cost', 'status'])
                 ->make(true);
         }
     }

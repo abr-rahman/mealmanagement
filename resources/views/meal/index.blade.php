@@ -33,7 +33,7 @@
         <div class="row my_style align-items-center deposit rounded">
             @include('partials.deposite')
         </div>
-        <div class="row my_style align-items-center details rounded">
+        <div class="row  align-items-center details rounded w-100">
             @include('partials.details')
         </div>
         {{-- Edit Member Modal --}}
@@ -145,14 +145,43 @@
                 processing: true,
                 serverSide: true,
                 dom: "lBfrtip",
-                "pageLength": parseInt("4"),
+                "pageLength": 30,
                 "lengthMenu": [
                     [10, 25, 50, 100, 500, 1000, -1],
                     [10, 25, 50, 100, 500, 1000, "All"]
                 ],
                 ajax: "{{ route('meal.details.index') }}",
-                columns: [{
-                        data: 'id', name: 'id'},{data: 'action', name: 'action',},
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'Serial No.'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+
+                    {
+                        data: 'paid',
+                        name: 'paid'
+                    },
+                    {
+                        data: 'total_meal',
+                        name: 'total_meal'
+                    },
+                    {
+                        data: 'meal_cost',
+                        name: 'meal_cost'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+
+                    {
+                        data: 'action',
+                        name: 'action'
+                    },
                 ]
             });
             // details datatable end
@@ -652,6 +681,11 @@
             });
         });
 
-
+        $(document).ready(function () {
+            $('.date').datetimepicker({
+                format: 'MM/DD/YYYY',
+                locale: 'en'
+            });
+        });
     </script>
 @endsection

@@ -10,6 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class MemberController extends Controller
 {
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
