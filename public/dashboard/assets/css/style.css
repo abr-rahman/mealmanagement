@@ -34,3 +34,6 @@ input:focus {
         max-width: 60%;
     }
 }
+.details-table{
+    background: #c5c5c55c !important;
+}

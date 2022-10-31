@@ -1,12 +1,16 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
+
+use App\Service\MealServiceInterface;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MealController;
-use App\Http\Controllers\BachelorController;
-use App\Http\Controllers\DepositeController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\BachelorController;
+use App\Http\Controllers\DepositeController;
+use App\Http\Controllers\Auth\AuthController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -59,3 +63,8 @@ Route::get('/recycle/restore/{id}', [MemberController::class, 'restore'])->name(
 Route::delete('/recycle/delete/{id}', [MemberController::class, 'force_delete'])->name('recycle.delete');
 
 
+Route::get('test', function(MealServiceInterface $mealService) {
+    ['report' => $abc] =  $mealService->getReportByDateRange('2022-10-01', '2022-11-10');
+
+    return $abc;
+});
