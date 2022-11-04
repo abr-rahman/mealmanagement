@@ -7,8 +7,8 @@
             </div>
             <select name="member_id" class="form-control text-dard rounded-0 bg-transparent" required>
                 <option> >>--Select One--<< </option>
-                @foreach ($members as $member)
-                    <option value="{{ $member->id }}">{{ $member->name }}</option>
+                @foreach ($members as $key => $member)
+                    <option value="{{ $member->id }}" {{ $selectedRole == $member->id ? 'selected="selected"' : '' }} >{{ $member->name }}</option>
                 @endforeach
             </select>
         </div>

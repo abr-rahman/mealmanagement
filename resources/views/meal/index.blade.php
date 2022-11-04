@@ -13,11 +13,12 @@
                 <a href="#" data-filter=".meal"> Meal</a>
                 <a href="#" data-filter=".market"> Market</a>
                 <a href="#" data-filter=".deposit"> Deposit</a>
-                <a href="#" data-filter=".details"> Details</a>
+                <a href="#" data-filter=".details" id="reportDetails"> Details</a>
             </div>
         </div>
         <div class="col-md-2">
             <a href="{{ route('recycle') }}" id="recycle" type="submit" class="btn btn-danger btn-sm">Recycle</a>
+            <a href="{{ route('db.backup') }}" class="btn btn-info btn-sm">Back Up</a>
         </div>
     </div>
     <div class="portfolio-container">
@@ -140,6 +141,14 @@
                     { data: 'address', name: 'address'},{data: 'action', name: 'action',},
                 ]
             });
+                $(document).ready(function() {
+                    var table = $('.details_datatable').DataTable( {
+                        rowReorder: {
+                            selector: 'td:nth-child(2)'
+                        },
+                        responsive: true
+                    } );
+                } );
             // details datatable start
             var tableDetails = $('.details_datatable').DataTable({
                 processing: true,
@@ -182,10 +191,69 @@
                         data: 'action',
                         name: 'action'
                     },
-                ]
-            });
-            // details datatable end
+                ],
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
 
+                    total2 = api.column(2).data().reduce(function (a, b) { return intVal(a) + intVal(b);}, 0);
+                    total3 = api.column(3).data().reduce(function (a, b) { return intVal(a) + intVal(b);}, 0);
+                    total4 = api.column(4).data().reduce(function (a, b) { return intVal(a) + intVal(b);}, 0);
+                    total5 = api.column(5).data().reduce(function (a, b) { return intVal(a) + intVal(b);}, 0);
+
+                    $(api.column(2).footer()).html(total2);
+                    $(api.column(3).footer()).html(total3);
+                    $(api.column(4).footer()).html(total4);
+                    $(api.column(5).footer()).html(total5);
+                },
+            });
+            // market add datatable -- second section
+            var mealMarketStore = $('.market_datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Bfrtip',
+                ajax: "{{ route('market.datatable') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'member_id',
+                        name: 'member_id'
+                    },
+                    {
+                        data: 'amount',
+                        name: 'amount'
+                    },
+                    {
+                        data: 'formDate',
+                        name: 'formDate'
+                    },
+                    {
+                        data: 'toDate',
+                        name: 'toDate'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                 footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+
+                    total = api.column(2).data().reduce(function (a, b) { return intVal(a) + intVal(b);}, 0);
+
+                    $(api.column(2).footer()).html(total);
+                },
+            });
+            // member store
             $('#new_member').submit(function(e){
                 e.preventDefault();
 
@@ -203,12 +271,32 @@
                         toastr.success(data);
                         $('#new_member')[0].reset();
                         table.ajax.reload();
+                        $('#partReload').load(location.href+" #partReload>*","");
                     },
                     error:function(error){
                         console.log(error);
                     }
                 })
             });
+            // details datatable end
+            // $('#reportDetails').on('click', function(e){
+            //     e.preventDefault();
+            //     alert('hi');
+            //     var data = $(this).serialize();
+            //     var url = '{{ route('get_report') }}';
+
+            //     $.ajax({
+            //         url:url,
+            //         method:'get',
+            //         data:data,
+            //         success:function(data){
+            //             // toastr.success(data);
+            //         },
+            //         error:function(error){
+            //             console.log(error);
+            //         }
+            //     })
+            // });
             // edit member
             $(document).on('click', '#edit', function(e) {
                 e.preventDefault();
@@ -334,29 +422,6 @@
                 });
 
             });
-            // edit meal
-            $(document).on('click', '#EditMeal', function(e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                $.ajax({
-                    url: url
-                    , type: 'get'
-                    , success: function(data) {
-                        $('#meal_edit_modal_body').html(data);
-                        $('.editMeal').modal('show');
-                    }
-                    , error: function(err) {
-                        $('.data_preloader').hide();
-                        if (err.status == 0) {
-
-                            toastr.error('Net Connetion Error. Reload This Page.');
-                        } else if (err.status == 500) {
-
-                            toastr.error('Server Error, Please contact to the support team.');
-                        }
-                    }
-                });
-            });
             // edit Market
             $(document).on('click', '#EditMarket', function(e) {
                 e.preventDefault();
@@ -424,7 +489,30 @@
                     }
                 })
             });
-            // update meal
+            // edit meal
+            $(document).on('click', '#EditMeal', function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: url
+                    , type: 'get'
+                    , success: function(data) {
+                        $('#meal_edit_modal_body').html(data);
+                        $('.editMeal').modal('show');
+                    }
+                    , error: function(err) {
+                        $('.data_preloader').hide();
+                        if (err.status == 0) {
+
+                            toastr.error('Net Connetion Error. Reload This Page.');
+                        } else if (err.status == 500) {
+
+                            toastr.error('Server Error, Please contact to the support team.');
+                        }
+                    }
+                });
+            });
+            // update market
             $(document).on('submit', '#marketFormUpdate', function(e) {
                 e.preventDefault();
                 var data = $(this).serialize();
@@ -531,26 +619,6 @@
                 // }
             });
 
-            // restore add
-            // $('#restore').on('click', function(e){
-            //     e.preventDefault();
-            //     alert('hi');
-            //     var data = $(this).serialize();
-            //     var url = $(this).attr('href');
-            //     $.ajax({
-            //         url:url,
-            //         method:'get',
-            //         data:data,
-            //         success:function(data){
-            //             toastr.success(data);
-            //             $('#mealAddStore')[0].reset();
-            //             meals_datatable.ajax.reload();
-            //         },
-            //         error:function(error){
-            //             console.log(error);
-            //         }
-            //     })
-            // });
             // Meal add store
             $('#mealAddStore').submit(function(e){
                 e.preventDefault();
@@ -570,42 +638,6 @@
                         console.log(error);
                     }
                 })
-            });
-
-            // market add store -- second section
-            var mealMarketStore = $('.market_datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                dom: 'Bfrtip',
-                pageLength: 4,
-                ajax: "{{ route('market.datatable') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'member_id',
-                        name: 'member_id'
-                    },
-                    {
-                        data: 'amount',
-                        name: 'amount'
-                    },
-                    {
-                        data: 'formDate',
-                        name: 'formDate'
-                    },
-                    {
-                        data: 'toDate',
-                        name: 'toDate'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
             });
 
             $('#mealMarketStore').submit(function(e){
@@ -657,7 +689,17 @@
                         orderable: false,
                         searchable: false
                     },
-                ]
+                ],
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+
+                    total = api.column(2).data().reduce(function (a, b) { return intVal(a) + intVal(b);}, 0);
+
+                    $(api.column(2).footer()).html(total);
+                },
             });
 
             $('#depositeStore').submit(function(e){
@@ -681,11 +723,5 @@
             });
         });
 
-        $(document).ready(function () {
-            $('.date').datetimepicker({
-                format: 'MM/DD/YYYY',
-                locale: 'en'
-            });
-        });
     </script>
 @endsection

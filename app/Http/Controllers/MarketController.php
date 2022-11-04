@@ -47,8 +47,9 @@ class MarketController extends Controller
     public function edit($id){
         $members = Member::all();
         $market = Market::find($id);
+        $selectedRole = Market::first()->member_id;
         // return $market;
-        return view('partials.ajax_view.edit_market', compact('market', 'members'));
+        return view('partials.ajax_view.edit_market', compact('market', 'members', 'selectedRole'));
     }
     public function update(Request $request, $id){
         $request->validate([

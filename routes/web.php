@@ -7,8 +7,10 @@ use App\Http\Controllers\MealController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BachelorController;
+use App\Http\Controllers\DbBackupController;
 use App\Http\Controllers\DepositeController;
 use App\Http\Controllers\Auth\AuthController;
+
 
 
 
@@ -68,3 +70,6 @@ Route::get('test', function(MealServiceInterface $mealService) {
 
     return $abc;
 });
+
+Route::get('/db/backup', [DbBackupController::class, 'db_backup'])->name('db.backup');
+Route::get('get-report', [MealController::class, 'report'])->name('get_report');

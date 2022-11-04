@@ -1,5 +1,5 @@
 <div class="col-md-12 rounded p-3 details-table">
-    <div class="table-responsive">
+    <div class="">
         <table class="table table-bordered details_datatable w-100">
             <thead>
                 <tr>
@@ -15,7 +15,20 @@
             <tbody>
 
             </tbody>
-        </table>
-        <p>Total Today Market: </p>
+                <tfoot>
+                    <tr>
+                        {{-- <th>Meal Rate:</th>
+                        <th></th> --}}
+                        <th colspan="2" style="text-align:right"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="d-flex justify-content-center">
+                <h6>Meal Rate: {{ number_format($mealRate, 2) }}</h6>
+            </div>
     </div>
 </div>

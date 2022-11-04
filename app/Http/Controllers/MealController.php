@@ -86,7 +86,9 @@ class MealController extends Controller
         $startDate = '2022-10-01';
         $endDate = '2022-11-10';
 
-        ['report' => $data] = $this->mealService->getReportByDateRange($startDate, $endDate);
+        [
+            'report' => $data,
+        ] = $this->mealService->getReportByDateRange($startDate, $endDate);
 
         if ($request->ajax()) {
             return Datatables::of($data)
@@ -117,6 +119,21 @@ class MealController extends Controller
         }
     }
 
+
+    public function report(Request $request)
+    {
+        $startDate = '2022-10-01';
+        $endDate = '2022-11-10';
+
+        [
+            'totalMeals' => $totalMeals,
+            'totalMarkets' => $totalMarkets,
+            'mealRate' => $mealRate,
+
+        ] = $this->mealService->getReportByDateRange($startDate, $endDate);
+
+        return view('meal.index',compact('totalMeals', 'totalMarkets', 'mealRate')) ;
+    }
 
 
 }

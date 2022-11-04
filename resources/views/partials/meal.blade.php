@@ -4,7 +4,7 @@
         <h4 class="mb-4">Add New Meal</h4>
         <div class="form-row">
             <div class="form-group col-sm-12">
-                <select name="member_id" class="form-control text-dard rounded-0 bg-transparent" required>
+                <select name="member_id" class="form-control text-dard rounded-0 bg-transparent" id="partReload" required>
                     <option value=""> >>--Select One--<< </option>
                     @foreach ($all_names as $all_name)
                         <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
@@ -52,13 +52,6 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
-                    <tfoot>
-                        <tr>
-                            <th id="total_meal">Total Meal</th>
-                        </tr>
-                        <p>Total Today Meals: </p>
-                    </tfoot>
                 </table>
             </div>
         </div>

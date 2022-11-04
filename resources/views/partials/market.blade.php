@@ -6,10 +6,15 @@
             <div class="form-group col-sm-12">
                 <label>Name</label>
                 <select name="member_id" class="form-control text-dard rounded-0 bg-transparent" required>
+
                     <option value=""> >>--Select One--<< </option>
-                    @foreach ($all_names as $all_name)
-                        <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
-                    @endforeach
+                    @if($all_names->count() > 0)
+                        @foreach ($all_names as $all_name)
+                            <option value="{{ $all_name->id }}">{{ $all_name->name }}</option>
+                        @endforeach
+                    @else
+                        No Record Found
+                    @endif
                 </select>
             </div>
             <div class="form-group col-sm-12">
@@ -50,9 +55,13 @@
                         </tr>
                     </thead>
                     <tbody></tbody>
-
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total : </th>
+                            <th style="text-align:right"> </th>
+                        </tr>
+                    </tfoot>
                 </table>
-                <p>Total Today Market: </p>
             </div>
         </div>
     </div>

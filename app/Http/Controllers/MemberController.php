@@ -6,10 +6,16 @@ use Log;
 use App\Models\Meal;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use App\Service\MealServiceInterface;
 use Yajra\DataTables\Facades\DataTables;
 
 class MemberController extends Controller
 {
+    private MealServiceInterface $mealService;
+    public function __construct(MealServiceInterface $mealService)
+    {
+        $this->mealService = $mealService;
+    }
 
     public function index(Request $request)
     {
@@ -30,7 +36,18 @@ class MemberController extends Controller
 
         $all_names = Member::all();
         // $all_names = DB::table('meals')->where('id', 'name')->first();
-        return view('meal.index', compact('all_names'));
+
+        $startDate = '2022-10-01';
+        $endDate = '2022-11-10';
+
+        [
+            'totalMeals' => $totalMeals,
+            'totalMarkets' => $totalMarkets,
+            'mealRate' => $mealRate,
+
+        ] = $this->mealService->getReportByDateRange($startDate, $endDate);
+
+        return view('meal.index', compact('all_names', 'totalMeals', 'totalMarkets', 'mealRate'));
     }
 
     public function store(Request $request)

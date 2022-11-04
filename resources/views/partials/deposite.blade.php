@@ -43,7 +43,12 @@
                         </tr>
                     </thead>
                     <tbody></tbody>
-
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" style="text-align:right">Total : </th>
+                            <th style="text-align:right"> </th>
+                        </tr>
+                    </tfoot>
                 </table>
                 <p>Total Today Market: </p>
             </div>

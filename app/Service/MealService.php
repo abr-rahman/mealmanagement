@@ -18,7 +18,7 @@ class MealService implements MealServiceInterface
         $members = Member::all();
         $meals = Meal::where('date', '>=', $startDate)->where('date', '<=', $endDate)->get();
         $deposits = Deposite::where('date', '>=', $startDate)->where('date', '<=', $endDate)->get();
-        $markets = Market::where('toDate', '>=', $startDate)->where('toDate', '<=', $endDate)->get();
+        $markets = Market::where('formDate', '>=', $startDate)->where('formDate', '<=', $endDate)->get();
 
         $totalMeals = $meals->reduce(function($sum, $meal) {
             return $sum + ($meal->breakfast * 0.5 + $meal->lunch + $meal->dinner);
@@ -26,7 +26,6 @@ class MealService implements MealServiceInterface
 
 
         $totalMarkets = $markets->sum('amount');
-
         $mealRate = $totalMarkets / $totalMeals;
 
         $report = $members->map(function($member) use($mealRate, $meals, $deposits) {
@@ -45,7 +44,7 @@ class MealService implements MealServiceInterface
             return $member;
         });
 
-        return compact('report', 'mealRate');
+        return compact('report', 'mealRate', 'totalMarkets', 'totalMeals');
 
     }
 }
