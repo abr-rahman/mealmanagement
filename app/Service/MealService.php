@@ -24,9 +24,13 @@ class MealService implements MealServiceInterface
             return $sum + ($meal->breakfast * 0.5 + $meal->lunch + $meal->dinner);
         }, 0);
 
+        $mealRate = 0;
+        $totalMarkets = 0;
 
         $totalMarkets = $markets->sum('amount');
-        $mealRate = $totalMarkets / $totalMeals;
+        if($totalMarkets && $totalMeals) {
+            $mealRate = $totalMarkets / $totalMeals;
+        }
 
         $report = $members->map(function($member) use($mealRate, $meals, $deposits) {
             $memberMealCount = $meals->where('member_id', $member->id)->reduce(function($sum, $meal) {

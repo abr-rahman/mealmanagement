@@ -1,4 +1,44 @@
-<div class="col-md-4 m-3">
+
+
+<div class="col-md-12 m-3">
+ <form id="mealAddStore" method="POST" action="{{ route('meal.add.store') }}" enctype="multipart/form-data">
+        @csrf
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Brakfast</th>
+                    <th>Lunch</th>
+                    <th>Dinner</th>
+                    <td>Select All <input type="checkbox" class="check" id="checkAll" ></td>
+                </tr>
+            </thead>
+            <tbody>
+                {{-- <input type="hidden" name="date" value="{{ date('Y-m-d') }}" checked> --}}
+                @foreach ($all_names as $names)
+                    <tr>
+                        <th scope="row"> {{ $names->name }} </th>
+                        <td>
+                            <input type="hidden" name="member_id[]" value="{{ $names->id }}" checked>
+                            <input type="checkbox" name="breakfast[]" class="check">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="lunch[]" class="check">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="dinner[]" class="check">
+
+                        </td>
+                        <td> <input type="checkbox" class="check" ></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary rounded w-md mt-3">Send</button>
+    </form>
+</div>
+
+{{-- <div class="col-md-4 m-3">
     <form id="mealAddStore" method="POST" action="{{ route('meal.add.store') }}" enctype="multipart/form-data">
         @csrf
         <h4 class="mb-4">Add New Meal</h4>
@@ -33,13 +73,12 @@
             </div>
         </div>
     </form>
-</div>
-
-<div class="col-md-8 table_color rounded p-3">
+</div> --}}
+<div class="col-md-12 background-table rounded p-3 w-100">
     <div class="container">
         <div class="row">
             <div class="col-12 table-responsive">
-                <table class="table table-bordered meals_datatable">
+                <table class="table table-bordered meals_datatable w-100">
                     <thead>
                         <tr>
                             <th>Serial</th>
@@ -57,3 +96,4 @@
         </div>
     </div>
 </div>
+

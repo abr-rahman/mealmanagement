@@ -18,7 +18,6 @@ class MealController extends Controller
     {
         $this->mealService = $mealService;
     }
-
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -46,22 +45,52 @@ class MealController extends Controller
                 ->make(true);
         }
     }
-
     public function store(Request $request)
     {
-        $request->validate([
-            'member_id' => 'required'
-        ]);
-        $meal = new Meal();
-        $meal->member_id = $request->member_id;
-        $meal->breakfast = $request->breakfast;
-        $meal->lunch = $request->lunch;
-        $meal->dinner = $request->dinner;
-        $meal->date = $request->date;
-        $meal->save();
-        return response()->json('Meal added successfully!');
-    }
 
+
+        // $request->validate([
+        //     'member_id' => 'required'
+        // ]);
+
+
+        foreach($request->member_id as $key => $value){
+            $data = new Meal();
+            $data->member_id = $request->member_id[$key];
+            $data->breakfast = (isset($request->breakfast[$key]) && $request->breakfast[$key]) ? 1 : 0;
+            $data->lunch = (isset($request->lunch[$key]) && $request->lunch[$key]) ? 1 : 0;
+            $data->dinner = (isset($request->dinner[$key]) && $request->dinner[$key]) ? 1 : 0;
+            $data->save();
+        }
+
+
+
+        // $total = count($request->member_id);
+        // for($i = 0; $i < $total; $i++) {
+        //     $meal = new Meal();
+        //     $meal->member_id = isset($request->member_id[$i]) ? $request->member_id[$i] : 0;
+        //     $meal->breakfast = isset($request->breakfast[$i]) && $request->breakfast[$i] == 'on' ? 1 : 0;
+        //     $meal->lunch = isset($request->lunch[$i]) && $request->lunch[$i] == 'on' ? 1 : 0;
+        //     $meal->dinner = isset($request->dinner[$i]) && $request->dinner[$i] == 'on' ? 1 : 0;
+
+        //     $meal->date = isset($request->date[$i]) ? $request->date[$i] : 0;
+        //     \Log::info('For member id: ' . $meal->member_id . PHP_EOL);
+        //     \Log::info($meal);
+        //     $meal->save();
+        // }
+        return response()->json('Meal added successfully!');
+
+        // foreach ($enroll_no as $key => $no) {
+        //     $input['no'] = $no;
+        //     $input['breakfast'] = $breakfast[$key];
+        //     $input['lunch'] = $lunch[$key];
+        //     $input['dinner'] = $dinner[$key];
+        //     $input['date'] = $lunch[$date];
+
+        //     Meal::create($input);
+        // }
+
+    }
     public function edit($id){
         $members = Member::all();
         $newmember = Meal::where('id', $id)->first();
@@ -80,7 +109,6 @@ class MealController extends Controller
         $meal->save();
         return response()->json('Meal updated successfully!');
     }
-
     public function detailsIndex(Request $request){
 
         $startDate = '2022-10-01';
@@ -95,7 +123,7 @@ class MealController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $html = '<div class="dropdown table-dropdown" id="accordion">';
-                    $html .= '<a href="" id="edit" class="action-btn p-3" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>';
+                    $html .= '<a href=" ' . route('meal.edit', $row->id) . '" id="EditMeal" class="action-btn p-2"><i class="fa-solid fa-pen-to-square text-success"></i></a>';
                     $html .= '</div>';
                     return $html;
                 })
@@ -118,7 +146,6 @@ class MealController extends Controller
                 ->make(true);
         }
     }
-
 
     public function report(Request $request)
     {

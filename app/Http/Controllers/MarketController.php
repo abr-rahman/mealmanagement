@@ -33,7 +33,8 @@ class MarketController extends Controller
     {
         $request->validate([
             'member_id' => 'required',
-            'amount' => 'required'
+            'amount' => 'required',
+            'formDate' => 'required'
         ]);
         $meal = new Market();
         $meal->member_id = $request->member_id;

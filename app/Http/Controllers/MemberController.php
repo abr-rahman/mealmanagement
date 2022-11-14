@@ -6,6 +6,7 @@ use Log;
 use App\Models\Meal;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Service\MealServiceInterface;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -46,6 +47,7 @@ class MemberController extends Controller
             'mealRate' => $mealRate,
 
         ] = $this->mealService->getReportByDateRange($startDate, $endDate);
+
 
         return view('meal.index', compact('all_names', 'totalMeals', 'totalMarkets', 'mealRate'));
     }

@@ -1,5 +1,5 @@
-<div class="col-md-12 rounded p-3 details-table">
-    <div class="">
+<div class="col-md-12 rounded p-3 background-table">
+    <div class="table-responsive">
         <table class="table table-bordered details_datatable w-100">
             <thead>
                 <tr>

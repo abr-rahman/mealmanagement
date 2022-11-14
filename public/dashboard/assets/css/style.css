@@ -3,7 +3,7 @@
 }
 .my_style {
     background: #c5c5c55c;
-    padding: 40px;
+    /* padding: 40px; */
     right: 0px !important;
 }
 @media screen and (max-width: 650px) {
@@ -34,6 +34,6 @@ input:focus {
         max-width: 60%;
     }
 }
-.details-table{
-    background: #c5c5c55c !important;
+.background-table{
+    background: #7c7c7c5c !important;
 }

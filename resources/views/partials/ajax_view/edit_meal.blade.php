@@ -8,7 +8,7 @@
             <select name="member_id" class="form-control text-dard rounded-0 bg-transparent" required>
                 <option> >>--Select One--<< </option>
                 @foreach ($members as $member)
-                    <option value="{{ $member->id }}">{{ $member->name }}</option>
+                    <option value="{{ $member->id }}" @if($tag->id === $post->tag_id) 'selected' @endif>{{ $member->name }}</option>
                 @endforeach
             </select>
         </div>

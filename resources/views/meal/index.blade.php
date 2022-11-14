@@ -1,3 +1,5 @@
+
+
 @extends('layout.dashboard')
 @section('content')
     <h6 class="section-title text-center pt-3">Meal Management System</h6>
@@ -10,9 +12,9 @@
         <div class="col-md-10">
             <div class="filters">
                 <a href="#" data-filter=".new" class="active"> Add</a>
-                <a href="#" data-filter=".meal"> Meal</a>
-                <a href="#" data-filter=".market"> Market</a>
                 <a href="#" data-filter=".deposit"> Deposit</a>
+                <a href="#" data-filter=".market"> Market</a>
+                <a href="#" data-filter=".meal"> Meal</a>
                 <a href="#" data-filter=".details" id="reportDetails"> Details</a>
             </div>
         </div>
@@ -21,6 +23,9 @@
             <a href="{{ route('db.backup') }}" class="btn btn-info btn-sm">Back Up</a>
         </div>
     </div>
+    <?php
+
+    ?>
     <div class="portfolio-container">
         <div class="row my_style align-items-center new rounded">
             @include('partials.member')
@@ -32,6 +37,7 @@
             @include('partials.market')
         </div>
         <div class="row my_style align-items-center deposit rounded">
+
             @include('partials.deposite')
         </div>
         <div class="row  align-items-center details rounded w-100">
@@ -130,25 +136,26 @@
                 processing: true,
                 serverSide: true,
                 dom: "lBfrtip",
-                "pageLength": parseInt("4"),
-                "lengthMenu": [
-                    [10, 25, 50, 100, 500, 1000, -1],
-                    [10, 25, 50, 100, 500, 1000, "All"]
+                // "pageLength": parseInt("4"),
+                // "lengthMenu": [
+                //     [10, 25, 50, 100, 500, 1000, -1],
+                //     [10, 25, 50, 100, 500, 1000, "All"]
+                // ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'colvis',
+                    'excel',
+                    'print'
                 ],
                 ajax: "{{ route('member.index') }}",
                 columns: [{
-                    data: 'id', name: 'id'},{data: 'name', name: 'name'},{data: 'email', name: 'email'},
-                    { data: 'address', name: 'address'},{data: 'action', name: 'action',},
+                    data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'address', name: 'address'},
+                    {data: 'action', name: 'action',},
                 ]
             });
-                $(document).ready(function() {
-                    var table = $('.details_datatable').DataTable( {
-                        rowReorder: {
-                            selector: 'td:nth-child(2)'
-                        },
-                        responsive: true
-                    } );
-                } );
             // details datatable start
             var tableDetails = $('.details_datatable').DataTable({
                 processing: true,
@@ -278,25 +285,6 @@
                     }
                 })
             });
-            // details datatable end
-            // $('#reportDetails').on('click', function(e){
-            //     e.preventDefault();
-            //     alert('hi');
-            //     var data = $(this).serialize();
-            //     var url = '{{ route('get_report') }}';
-
-            //     $.ajax({
-            //         url:url,
-            //         method:'get',
-            //         data:data,
-            //         success:function(data){
-            //             // toastr.success(data);
-            //         },
-            //         error:function(error){
-            //             console.log(error);
-            //         }
-            //     })
-            // });
             // edit member
             $(document).on('click', '#edit', function(e) {
                 e.preventDefault();
@@ -591,10 +579,10 @@
                 processing: true,
                 serverSide: true,
                 dom: 'Bfrtip',
-                pageLength: 4,
+                // pageLength: 4,
                 ajax: "{{ route('meal.meals_datatable') }}",
                 columns: [
-                    { data: 'id', name: 'id'},
+                    {  data: 'DT_RowIndex', name: 'Serial No.'},
                     { data: 'member_id', name: 'member_id'},
                     { data: 'breakfast', name: 'breakfast'},
                     { data: 'lunch', name: 'lunch'},
@@ -623,8 +611,8 @@
             $('#mealAddStore').submit(function(e){
                 e.preventDefault();
 
-                var data = $(this).serialize();
                 var url = $(this).attr('action');
+                var data = $(this).serialize();
                 $.ajax({
                     url:url,
                     method:'POST',
@@ -638,6 +626,54 @@
                         console.log(error);
                     }
                 })
+
+                // const member_id = [];
+                // const breakfast = [];
+                // const lunch = [];
+                // const dinner = [];
+                // const date = [];
+
+                // $('input[name^="member_id"]').each(function(){
+                //     member_id.push($(this).val());
+                // })
+                // $('input[name^="breakfast"]').each(function(){
+                //     breakfast.push($(this).val());
+                // })
+                // $('input[name^="lunch"]').each(function(){
+                //     lunch.push($(this).val());
+                // })
+                // $('input[name^="dinner"]').each(function(){
+                //     dinner.push($(this).val());
+                // })
+                // $('input[name^="date"]').each(function(){
+                //     date.push($(this).val());
+                // })
+
+                // $.ajax({
+                //     url = $(this).attr('action'),
+                //     type: post,
+                //     data: {
+                //         member_id: member_id,
+                //         breakfast: breakfast,
+                //         lunch: lunch,
+                //         dinner: dinner,
+                //         date: date,
+                //     },
+                //     success:function(response) {
+                //         toastr.success(response);
+                //     }
+                // });
+
+
+                // $('input[type=checkbox]').each(function() {
+                    //     if (!this.checked) {
+                        //         data += '&'+this.name+'=0';
+                        //     }
+                        // });
+
+                // data.forEach((i, v) => console.log(`${i} ${v}`))
+
+
             });
 
             $('#mealMarketStore').submit(function(e){
@@ -667,28 +703,12 @@
                 dom: 'Bfrtip',
                 pageLength: 4,
                 ajax: "{{ route('deposite.datatable') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'member_id',
-                        name: 'member_id'
-                    },
-                    {
-                        data: 'amount',
-                        name: 'amount'
-                    },
-                    {
-                        data: 'date',
-                        name: 'date'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                columns: [
+                    {data: 'DT_RowIndex', name: 'Serial No.'},
+                    {data: 'member_id', name: 'member_id'},
+                    { data: 'amount', name: 'amount'},
+                    {data: 'date', name: 'date'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
                 footerCallback: function (row, data, start, end, display) {
                     var api = this.api();
@@ -714,12 +734,20 @@
                     success:function(data){
                         toastr.success(data);
                         $('#depositeStore')[0].reset();
+                        $('#newDeposite').modal('hide');
                         deposite.ajax.reload();
                     },
                     error:function(error){
                         console.log(error);
                     }
                 })
+            });
+
+            $("#checkAll").click(function () {
+                $(".check").prop('checked', $(this).prop('checked'));
+            });
+            $("#name_check").click(function () {
+                $(".name_check").prop('checked', $(this).prop('checked'));
             });
         });
 
