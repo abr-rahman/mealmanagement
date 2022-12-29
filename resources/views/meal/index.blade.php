@@ -1,21 +1,15 @@
-
-
 @extends('layout.dashboard')
 @section('content')
     <h6 class="section-title text-center pt-3">Meal Management System</h6>
     <h6 class="section-subtitle mb-3 text-center">New stunning projects for our amazing clients</h6>
-    {{-- <form action="{{ route('logout') }}" method="post">
-        @csrf
-        <button type="submit" class="btn btn-danger btn-sm">logout</button>
-    </form> --}}
     <div class="row">
         <div class="col-md-10">
             <div class="filters">
-                <a href="#" data-filter=".new" class="active"> Add</a>
-                <a href="#" data-filter=".deposit"> Deposit</a>
-                <a href="#" data-filter=".market"> Market</a>
-                <a href="#" data-filter=".meal"> Meal</a>
-                <a href="#" data-filter=".details" id="reportDetails"> Details</a>
+                <a href="#" data-filter=".new" class="active">Add</a>
+                <a href="#" data-filter=".deposit">Deposit</a>
+                <a href="#" data-filter=".market">Market</a>
+                <a href="#" data-filter=".meal">Meal</a>
+                <a href="#" data-filter=".details" id="reportDetails">Details</a>
             </div>
         </div>
         <div class="col-md-2">
@@ -23,9 +17,6 @@
             <a href="{{ route('db.backup') }}" class="btn btn-info btn-sm">Back Up</a>
         </div>
     </div>
-    <?php
-
-    ?>
     <div class="portfolio-container">
         <div class="row my_style align-items-center new rounded">
             @include('partials.member')
@@ -135,7 +126,7 @@
             var table = $('.user_datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                dom: "lBfrtip",
+                // dom: "lBfrtip",
                 // "pageLength": parseInt("4"),
                 // "lengthMenu": [
                 //     [10, 25, 50, 100, 500, 1000, -1],
@@ -750,6 +741,5 @@
                 $(".name_check").prop('checked', $(this).prop('checked'));
             });
         });
-
     </script>
 @endsection

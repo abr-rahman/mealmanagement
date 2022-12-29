@@ -47,7 +47,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 table-responsive">
-                <table class="table table-bordered market_datatable">
+                <table class="table table-bordered market_datatable w-100">
                     <thead>
                         <tr>
                             <th>Serial</th>

@@ -1,7 +1,7 @@
 
 
 <div class="col-md-12 m-3">
- <form id="mealAddStore" method="POST" action="{{ route('meal.add.store') }}" enctype="multipart/form-data">
+    <form id="mealAddStore" method="POST" action="{{ route('meal.add.store') }}" enctype="multipart/form-data">
         @csrf
         <table class="table">
             <thead>
@@ -27,17 +27,14 @@
                         </td>
                         <td>
                             <input type="checkbox" name="dinner[]" class="check">
-
                         </td>
-                        <td> <input type="checkbox" class="check" ></td>
                     </tr>
-                @endforeach
+                    @endforeach
             </tbody>
         </table>
         <button type="submit" class="btn btn-primary rounded w-md mt-3">Send</button>
     </form>
 </div>
-
 {{-- <div class="col-md-4 m-3">
     <form id="mealAddStore" method="POST" action="{{ route('meal.add.store') }}" enctype="multipart/form-data">
         @csrf
